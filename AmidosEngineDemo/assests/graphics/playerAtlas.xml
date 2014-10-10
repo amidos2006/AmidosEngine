@@ -1,0 +1,29 @@
+<TextureAtlas imagePath="playerSpritesheet.png">
+	<SubTexture name="playerMoveRight0" x="0" y="0" width="16" height="16"/>
+	<SubTexture name="playerMoveRight1" x="16" y="0" width="16" height="16"/>
+	<SubTexture name="playerMoveRight2" x="32" y="0" width="16" height="16"/>
+	<SubTexture name="playerMoveRight3" x="48" y="0" width="16" height="16"/>
+	
+	<SubTexture name="playerStandingRight" x="0" y="0" width="16" height="16"/>
+	
+	<SubTexture name="playerMoveLeft0" x="0" y="16" width="16" height="16"/>
+	<SubTexture name="playerMoveLeft1" x="16" y="16" width="16" height="16"/>
+	<SubTexture name="playerMoveLeft2" x="32" y="16" width="16" height="16"/>
+	<SubTexture name="playerMoveLeft3" x="48" y="16" width="16" height="16"/>
+	
+	<SubTexture name="playerStandingLeft" x="0" y="16" width="16" height="16"/>
+	
+	<SubTexture name="playerMoveUp0" x="0" y="32" width="16" height="16"/>
+	<SubTexture name="playerMoveUp1" x="16" y="32" width="16" height="16"/>
+	<SubTexture name="playerMoveUp2" x="32" y="32" width="16" height="16"/>
+	<SubTexture name="playerMoveUp3" x="48" y="32" width="16" height="16"/>
+	
+	<SubTexture name="playerStandingUp" x="0" y="32" width="16" height="16"/>
+	
+	<SubTexture name="playerMoveDown0" x="0" y="48" width="16" height="16"/>
+	<SubTexture name="playerMoveDown1" x="16" y="48" width="16" height="16"/>
+	<SubTexture name="playerMoveDown2" x="32" y="48" width="16" height="16"/>
+	<SubTexture name="playerMoveDown3" x="48" y="48" width="16" height="16"/>
+	
+	<SubTexture name="playerStandingDown" x="0" y="48" width="16" height="16"/>
+</TextureAtlas>
