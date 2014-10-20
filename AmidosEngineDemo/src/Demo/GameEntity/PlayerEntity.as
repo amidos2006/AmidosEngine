@@ -2,6 +2,7 @@ package Demo.GameEntity
 {
 	import AmidosEngine.AE;
 	import AmidosEngine.Entity;
+	import AmidosEngine.Input;
 	import AmidosEngine.Key;
 	import AmidosEngine.KeyStatus;
 	import AmidosEngine.Spritemap;
@@ -23,6 +24,9 @@ package Demo.GameEntity
 		
 		public function PlayerEntity() 
 		{
+			x = 100;
+			y = 100;
+			
 			status = "Standing";
 			direction = "Down";
 			
@@ -45,7 +49,7 @@ package Demo.GameEntity
 			graphic = spritemap;
 			layer = LayerConstants.PLAYER_LAYER;
 			
-			hitBox = new Rectangle(-spritemap.pivotX, -spritemap.pivotY, spritemap.width, spritemap.height);
+			hitBox = new Rectangle( -spritemap.pivotX, -spritemap.pivotY, spritemap.width, spritemap.height);
 		}
 		
 		override public function update(dt:Number):void 
@@ -54,19 +58,19 @@ package Demo.GameEntity
 			
 			status = "Standing";
 			var movingVector:Point = new Point();
-			if (AE.GetKeyStatus(Key.UP) == KeyStatus.DOWN)
+			if (Input.GetKeyStatus(Key.UP) == KeyStatus.DOWN)
 			{
 				movingVector.y -= 1;
 			}
-			if (AE.GetKeyStatus(Key.DOWN) == KeyStatus.DOWN)
+			if (Input.GetKeyStatus(Key.DOWN) == KeyStatus.DOWN)
 			{
 				movingVector.y += 1;
 			}
-			if (AE.GetKeyStatus(Key.LEFT) == KeyStatus.DOWN)
+			if (Input.GetKeyStatus(Key.LEFT) == KeyStatus.DOWN)
 			{
 				movingVector.x -= 1;
 			}
-			if (AE.GetKeyStatus(Key.RIGHT) == KeyStatus.DOWN)
+			if (Input.GetKeyStatus(Key.RIGHT) == KeyStatus.DOWN)
 			{
 				movingVector.x += 1;
 			}

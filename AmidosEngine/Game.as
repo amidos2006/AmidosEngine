@@ -9,9 +9,7 @@ package AmidosEngine
 	import starling.events.EnterFrameEvent;
 	import starling.events.Event;
 	import starling.events.KeyboardEvent;
-	import starling.events.Touch;
 	import starling.events.TouchEvent;
-	import starling.events.TouchPhase;
 	/**
 	 * Main Game Object
 	 * @author Amidos
@@ -29,11 +27,8 @@ package AmidosEngine
 		
 		internal var currentWorld:World;
 		internal var nextWorld:World;
-		internal var numberOfTouches:int;
 		internal var stageWidth:int;
 		internal var stageHeight:int;
-		internal var pressedKeys:Array;
-		internal var keyboardKeys:Array;
 		
 		/**
 		 * Get current active world
@@ -91,19 +86,10 @@ package AmidosEngine
 			addChild(background);
 			
 			gameCamera = new GameCamera(Starling.current.stage.stageWidth, Starling.current.stage.stageHeight);
-			numberOfTouches = 0;
 			
-			pressedKeys = new Array();
-			keyboardKeys = new Array();
-			for (var i:int = 0; i < 256; i++) 
-			{
-				pressedKeys[i] = KeyStatus.UP;
-				keyboardKeys[i] = KeyStatus.UP;
-			}
-			
-			this.addEventListener(TouchEvent.TOUCH, onTouch);
-			this.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			this.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+			this.addEventListener(TouchEvent.TOUCH, Input.onTouch);
+			this.addEventListener(KeyboardEvent.KEY_DOWN, Input.onKeyDown);
+			this.addEventListener(KeyboardEvent.KEY_UP, Input.onKeyUp);
 			this.addEventListener(EnterFrameEvent.ENTER_FRAME, update);
 			
 			this.stageWidth = Starling.current.stage.stageWidth;
@@ -116,44 +102,7 @@ package AmidosEngine
 		{
 			if (currentWorld != null)
 			{
-				for (var i:int = 0; i < keyboardKeys.length; i++) 
-				{
-					switch (keyboardKeys[i]) 
-					{
-						case KeyStatus.UP:
-							if (pressedKeys[i])
-							{
-								keyboardKeys[i] = KeyStatus.PRESS;
-							}
-							break;
-						case KeyStatus.PRESS:
-							if (pressedKeys[i])
-							{
-								keyboardKeys[i] = KeyStatus.DOWN;
-							}
-							else
-							{
-								keyboardKeys[i] = KeyStatus.RELEASE;
-							}
-							break;
-						case KeyStatus.DOWN:
-							if (!pressedKeys[i])
-							{
-								keyboardKeys[i] = KeyStatus.RELEASE;
-							}
-							break;
-						case KeyStatus.RELEASE:
-							if (pressedKeys[i])
-							{
-								keyboardKeys[i] = KeyStatus.PRESS;
-							}
-							else
-							{
-								keyboardKeys[i] = KeyStatus.UP;
-							}
-							break;
-					}
-				}
+				Input.UpdateKeys();
 				
 				currentWorld.update(event.passedTime);
 			}
@@ -166,15 +115,10 @@ package AmidosEngine
 					removeChild(currentWorld);
 				}
 				
-				AE.RemoveAllPressFunction();
-				AE.RemoveAllMoveFunction();
-				AE.RemoveAllReleaseFunction();
-				
-				for (i = 0; i < keyboardKeys.length; i++) 
-				{
-					pressedKeys[i] = false;
-					keyboardKeys[i] = KeyStatus.UP;
-				}
+				Input.RemoveAllPressFunction();
+				Input.RemoveAllMoveFunction();
+				Input.RemoveAllReleaseFunction();
+				Input.RemoveAllPressedKeys();
 				
 				nextWorld.begin();
 				addChild(nextWorld);
@@ -183,68 +127,5 @@ package AmidosEngine
 				nextWorld = null;
 			}
 		}
-		
-		private function onKeyDown(event:KeyboardEvent):void
-		{
-			pressedKeys[event.keyCode] = true;
-		}
-		
-		private function onKeyUp(event:KeyboardEvent):void
-		{
-			pressedKeys[event.keyCode] = false;
-		}
-		
-		private function onTouch(event:TouchEvent):void
-		{
-			var touches:Vector.<Touch> = event.getTouches(this, TouchPhase.BEGAN);
-			var i:int = 0;
-			var j:int = 0;
-			var localPos:Point;
-			
-			numberOfTouches += touches.length;
-			if (touches.length > 0)
-			{
-				for (i = 0; i < touches.length; i++) 
-				{
-					localPos = touches[i].getLocation(this);
-					for (j = 0; j < AE.pressFunction.length; j++) 
-					{
-						AE.pressFunction[j](localPos.x, localPos.y, touches[i].id);
-					}
-				}
-			}
-			
-			touches = event.getTouches(this, TouchPhase.MOVED);
-			i = 0;
-			j = 0;
-			if (touches.length > 0)
-			{
-				for (i = 0; i < touches.length; i++) 
-				{
-					localPos = touches[i].getLocation(this);
-					for (j = 0; j < AE.moveFunction.length; j++) 
-					{
-						AE.moveFunction[j](localPos.x, localPos.y, touches[i].id);
-					}
-				}
-			}
-			
-			touches = event.getTouches(this, TouchPhase.ENDED);
-			i = 0;
-			j = 0;
-			numberOfTouches -= touches.length;
-			if (touches.length > 0)
-			{
-				for (i = 0; i < touches.length; i++) 
-				{
-					localPos = touches[i].getLocation(this);
-					for (j = 0; j < AE.releaseFunction.length; j++) 
-					{
-						AE.releaseFunction[j](localPos.x, localPos.y, touches[i].id);
-					}
-				}
-			}
-		}
 	}
-
 }

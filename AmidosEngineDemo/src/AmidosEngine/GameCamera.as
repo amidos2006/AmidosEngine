@@ -9,10 +9,73 @@ package AmidosEngine
 	 */
 	public class GameCamera 
 	{
-		public var x:Number;
-		public var y:Number;
-		public var width:Number;
-		public var height:Number;
+		private var localWidth:Number;
+		private var localHeight:Number;
+		private var localX:Number;
+		private var localY:Number;
+		private var localZoomX:Number;
+		private var localZoomY:Number;
+		private var localRotation:Number;
+		
+		public function get width():Number
+		{
+			return localWidth / zoomX;
+		}
+		
+		public function get height():Number
+		{
+			return localHeight / zoomY;
+		}
+		
+		public function set x(value:Number):void
+		{
+			localX = value;
+		}
+		
+		public function get x():Number
+		{
+			return localX;
+		}
+		
+		public function set y(value:Number):void
+		{
+			localY = value;
+		}
+		
+		public function get y():Number
+		{
+			return localY;
+		}
+		
+		public function set zoomX(value:Number):void
+		{
+			localZoomX = value;
+		}
+		
+		public function get zoomX():Number
+		{
+			return localZoomX;
+		}
+		
+		public function set zoomY(value:Number):void
+		{
+			localZoomY = value;
+		}
+		
+		public function get zoomY():Number
+		{
+			return localZoomY;
+		}
+		
+		public function set rotation(value:Number):void
+		{
+			localRotation = value;
+		}
+		
+		public function get rotation():Number
+		{
+			return localRotation;
+		}
 		
 		/**
 		 * Create in game camera don't create object from it there is one created in Game class
@@ -21,11 +84,16 @@ package AmidosEngine
 		 */
 		public function GameCamera(w:Number, h:Number) 
 		{
-			x = 0;
-			y = 0;
+			localX = 0;
+			localY = 0;
 			
-			width = w;
-			height = h;
+			localWidth = w;
+			localHeight = h;
+			
+			localZoomX = 1;
+			localZoomY = 1;
+			
+			localRotation = 0;
 		}
 		
 		/**
@@ -36,7 +104,13 @@ package AmidosEngine
 		 */
 		public function GetWorldPoint(x:Number, y:Number):Point
 		{
-			return new Point(x + this.x, y + this.y);
+			var cameraMatrix:Matrix = new Matrix();
+			cameraMatrix.translate(-zoomX * AE.game.gameCamera.width / 2, -zoomY * AE.game.gameCamera.height / 2);
+			cameraMatrix.scale(1 / zoomX, 1 / zoomY);
+			cameraMatrix.rotate(-rotation);
+			cameraMatrix.translate(this.x, this.y);
+			
+			return cameraMatrix.transformPoint(new Point(x, y));
 		}
 		
 		/**
@@ -45,9 +119,15 @@ package AmidosEngine
 		 * @param	y position of world coordinate point
 		 * @return camera coordinate point
 		 */
-		public function GetLocalPoint(x:Number, y:Number):Point
+		public function GetCameraPoint(x:Number, y:Number):Point
 		{
-			return new Point(x - this.x, y - this.y)
+			var cameraMatrix:Matrix = new Matrix();
+			cameraMatrix.translate(-this.x, -this.y);
+			cameraMatrix.scale(zoomX, zoomY);
+			cameraMatrix.rotate(rotation);
+			cameraMatrix.translate(zoomX * width / 2, zoomY * height / 2);
+			
+			return cameraMatrix.transformPoint(new Point(x, y));
 		}
 		
 		/**

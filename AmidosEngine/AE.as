@@ -11,10 +11,6 @@ package AmidosEngine
 	 */
 	public class AE 
 	{
-		internal static var pressFunction:Vector.<Function>;
-		internal static var moveFunction:Vector.<Function>;
-		internal static var releaseFunction:Vector.<Function>;
-		
 		/// The main game object
 		public static var game:Game;
 		/// responsible for loading assets for the game
@@ -55,9 +51,7 @@ package AmidosEngine
 		 */
 		public static function Initialize():void
 		{
-			pressFunction = new Vector.<Function>();
-			moveFunction = new Vector.<Function>();
-			releaseFunction = new Vector.<Function>();
+			Input.Initialize();
 			
 			assetManager = new AssetManager();
 		}
@@ -156,106 +150,6 @@ package AmidosEngine
 			}
 			
 			return result;
-		}
-		
-		/**
-		 * Add a Function that would be called when a finger just touch the screen
-		 * @param	f should be function(tX:Number, tY:Number, tID:int):void where tX is the touch X position tY is the touch Y position and tID is a unique id for that touch
-		 */
-		public static function AddPressFunction(f:Function):void
-		{
-			pressFunction.push(f);
-		}
-		
-		/**
-		 * Remove a specific press function
-		 * @param	f required to be removed
-		 */
-		public static function RemovePressFunction(f:Function):void
-		{
-			var index:int = pressFunction.indexOf(f);
-			pressFunction.splice(index, 1);
-		}
-		
-		/**
-		 * Remove all press functions event handlers
-		 */
-		public static function RemoveAllPressFunction():void
-		{
-			pressFunction.length = 0;
-		}
-		
-		/**
-		 * Add a Function that would be called when a touching finger moves on screen
-		 * @param	f should be function(tX:Number, tY:Number, tID:int):void where tX is the touch X position tY is the touch Y position and tID is a unique id for that touch
-		 */
-		public static function AddMoveFunction(f:Function):void
-		{
-			moveFunction.push(f);
-		}
-		
-		/**
-		 * Remove specific move function
-		 * @param	f required to be removed
-		 */
-		public static function RemoveMoveFunction(f:Function):void
-		{
-			var index:int = moveFunction.indexOf(f);
-			moveFunction.splice(index, 1);
-		}
-		
-		/**
-		 * Remove all move functions event handlers
-		 */
-		public static function RemoveAllMoveFunction():void
-		{
-			moveFunction.length = 0;
-		}
-		
-		/**
-		 * Add a Function that would be called when a touched finger just go out of screen
-		 * @param	f should be function(tX:Number, tY:Number, tID:int):void where tX is the touch X position tY is the touch Y position and tID is a unique id for that touch
-		 */
-		public static function AddReleaseFunction(f:Function):void
-		{
-			releaseFunction.push(f);
-		}
-		
-		/**
-		 * Remove a specific release function
-		 * @param	f required to be removed
-		 */
-		public static function RemoveReleaseFunction(f:Function):void
-		{
-			var index:int = releaseFunction.indexOf(f);
-			releaseFunction.splice(index, 1);
-		}
-		
-		/**
-		 * Remove all release functions event handlers
-		 */
-		public static function RemoveAllReleaseFunction():void
-		{
-			releaseFunction.length = 0;
-		}
-		
-		/**
-		 * Get KeyStatus for specific keyboard key
-		 * @param	key required to check its status
-		 * @return current status of keyboard key (KeyStatus.PRESS, KeyStatus.DOWN, KeyStatus.RELEASE, KeyStatus.UP)
-		 */
-		public static function GetKeyStatus(key:int):int
-		{
-			return game.keyboardKeys[key];
-		}
-		
-		/**
-		 * Get number of fingers on screen
-		 * @return integer value show number of touches on screen
-		 */
-		public static function get NumberOfTouches():int
-		{
-			return game.numberOfTouches;
 		}
 	}
 

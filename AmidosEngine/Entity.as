@@ -1,5 +1,8 @@
 package AmidosEngine 
 {
+	import flash.geom.Matrix;
+	import flash.geom.Matrix3D;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
@@ -12,6 +15,11 @@ package AmidosEngine
 	{
 		private var localX:Number;
 		private var localY:Number;
+		private var localPivotX:Number;
+		private var localPivotY:Number;
+		private var localScaleX:Number;
+		private var localScaleY:Number;
+		private var localRotation:Number;
 		private var localLayer:Number;
 		private var localHitBox:Rectangle;
 		private var localGraphic:DisplayObject;
@@ -50,6 +58,68 @@ package AmidosEngine
 		override public function get y():Number 
 		{
 			return localY;
+		}
+		
+		override public function set pivotX(value:Number):void 
+		{
+			localPivotX = value;
+		}
+		
+		override public function get pivotX():Number 
+		{
+			return localPivotX;
+		}
+		
+		override public function set pivotY(value:Number):void 
+		{
+			localPivotY = value;
+		}
+		
+		override public function get pivotY():Number 
+		{
+			return localPivotY;
+		}
+		
+		/**
+		 * Set scaling in x direction
+		 */
+		override public function set scaleX(value:Number):void 
+		{
+			localScaleX = value;
+		}
+		
+		/**
+		 * Get scaling in x direction
+		 */
+		override public function get scaleX():Number 
+		{
+			return localScaleX;
+		}
+		
+		/**
+		 * Set scaling in y direction
+		 */
+		override public function set scaleY(value:Number):void 
+		{
+			localScaleY = value;
+		}
+		
+		/**
+		 * Get scaling in y direction
+		 */
+		override public function get scaleY():Number 
+		{
+			return localScaleY;
+		}
+		
+		override public function set rotation(value:Number):void 
+		{
+			localRotation = value;
+		}
+		
+		override public function get rotation():Number 
+		{
+			return localRotation;
 		}
 		
 		/**
@@ -179,15 +249,18 @@ package AmidosEngine
 		
 		private function UpdatePosition():void
 		{
+			transformationMatrix.identity();
+			transformationMatrix.translate(localPivotX, localPivotY);
+			transformationMatrix.scale(localScaleX, localScaleY);
+			transformationMatrix.rotate(localRotation);
+			transformationMatrix.translate(localX, localY);
+			
 			if (localUseCamera)
 			{
-				super.x = localX - AE.game.gameCamera.x;
-				super.y = localY - AE.game.gameCamera.y;
-			}
-			else
-			{
-				super.x = localX;
-				super.y = localY;
+				transformationMatrix.translate(-AE.game.gameCamera.x, -AE.game.gameCamera.y);
+				transformationMatrix.scale(AE.game.gameCamera.zoomX, AE.game.gameCamera.zoomY);
+				transformationMatrix.rotate(AE.game.gameCamera.rotation);
+				transformationMatrix.translate(AE.game.gameCamera.zoomX * AE.game.gameCamera.width / 2, AE.game.gameCamera.zoomY * AE.game.gameCamera.height / 2);
 			}
 		}
 		
@@ -198,6 +271,11 @@ package AmidosEngine
 		{
 			localX = 0;
 			localY = 0;
+			localPivotX = 0;
+			localPivotY = 0;
+			localScaleX = 1;
+			localScaleY = 1;
+			localRotation = 0;
 			localLayer = 0;
 			localHitBox = null;
 			localGraphic = null;

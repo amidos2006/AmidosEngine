@@ -1,10 +1,14 @@
 package Demo.GameWorld 
 {
 	import AmidosEngine.AE;
+	import AmidosEngine.Entity;
+	import AmidosEngine.Input;
 	import AmidosEngine.Sfx;
+	import AmidosEngine.Shapes;
 	import AmidosEngine.World;
 	import Demo.GameEntity.*;
 	import flash.geom.Point;
+	import starling.display.Image;
 	/**
 	 * ...
 	 * @author Amidos
@@ -41,7 +45,7 @@ package Demo.GameWorld
 			
 			gameMusicSfx.Loop();
 			
-			AE.AddPressFunction(AddHeart);
+			Input.AddPressFunction(AddHeart);
 		}
 		
 		override public function end():void 
@@ -50,7 +54,7 @@ package Demo.GameWorld
 			
 			gameMusicSfx.Stop();
 			
-			AE.RemovePressFunction(AddHeart);
+			Input.RemovePressFunction(AddHeart);
 		}
 		
 		private function AddHeart(tX:Number, tY:Number, tID:int):void
@@ -63,8 +67,8 @@ package Demo.GameWorld
 		{
 			super.update(dt);
 			
-			AE.game.gameCamera.x = player.x - AE.game.gameCamera.width / 2;
-			AE.game.gameCamera.y = player.y - AE.game.gameCamera.height / 2;
+			AE.game.gameCamera.x = player.x;
+			AE.game.gameCamera.y = player.y;
 		}
 	}
 

@@ -50,18 +50,18 @@ package AmidosEngine
 			super.add();
 			
 			ButtonOut();
-			AE.AddPressFunction(PressHandle);
-			AE.AddMoveFunction(MoveHandle);
-			AE.AddReleaseFunction(ReleaseHandle);
+			Input.AddPressFunction(PressHandle);
+			Input.AddMoveFunction(MoveHandle);
+			Input.AddReleaseFunction(ReleaseHandle);
 		}
 		
 		override public function remove():void 
 		{
 			super.remove();
 			
-			AE.RemovePressFunction(PressHandle);
-			AE.RemoveMoveFunction(MoveHandle);
-			AE.RemoveReleaseFunction(ReleaseHandle);
+			Input.RemovePressFunction(PressHandle);
+			Input.RemoveMoveFunction(MoveHandle);
+			Input.RemoveReleaseFunction(ReleaseHandle);
 		}
 		
 		private function PressHandle(mX:Number, mY:Number, id:int):void

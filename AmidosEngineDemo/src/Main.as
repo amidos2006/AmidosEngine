@@ -37,7 +37,7 @@ package
 		{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
-			stage.quality = StageQuality.LOW;
+			stage.quality = StageQuality.BEST;
 			
 			stage.addEventListener(flash.events.Event.DEACTIVATE, deactivate);
 			stage.addEventListener(flash.events.Event.ACTIVATE, activate);
@@ -112,6 +112,13 @@ package
 		{
 			if (ratio == 1)
 			{
+				//Playing with camera parameter
+				AE.game.gameCamera.zoomX = 5;
+				AE.game.gameCamera.zoomY = 5;
+				AE.game.gameCamera.rotation = Math.PI / 6;
+				AE.game.gameCamera.x = -20;
+				AE.game.gameCamera.y = 20;
+				
 				AE.game.ActiveWorld = new LoadingWorld(new DemoWorld() ,currentLoadingScreen);
 			}
 		}
